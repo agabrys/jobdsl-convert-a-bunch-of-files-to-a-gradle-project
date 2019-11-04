@@ -3,6 +3,7 @@ pipeline {
         label 'master'
     }
     options {
+        ansiColor('xterm')
         disableConcurrentBuilds()
         timestamps()
         timeout(time: 15)

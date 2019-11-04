@@ -1,3 +1,5 @@
+import org.example.Logger
+
 def views = [
     [
         name: 'view 1',
@@ -13,8 +15,9 @@ def views = [
     ]
 ]
 
+def logger = new Logger(out)
 views.each { view ->
-    out.println "  Creating view: ${view.name}"
+    logger.info("Creating view: ${view.name}")
     listView(view.name) {
         jobs {
             names(view.jobNames.toArray(new String[0]))

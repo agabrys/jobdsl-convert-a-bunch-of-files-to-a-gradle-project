@@ -1,3 +1,5 @@
+import org.example.Logger
+
 def jobs = [
     [
         name: 'project-1',
@@ -26,8 +28,9 @@ def jobs = [
     ]
 ]
 
+def logger = new Logger(out)
 jobs.each { job ->
-    out.println "  Creating Maven job for ${job.displayName}"
+    logger.info("Creating Maven job for ${job.displayName}")
     mavenJob(job.name) {
         displayName(job.displayName)
         description("""\

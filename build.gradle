@@ -26,6 +26,10 @@ dependencies {
     implementation group: 'org.jenkins-ci.main', name: 'jenkins-core', version: '2.190.2'
 
     jenkinsPlugin group: 'org.jenkins-ci.plugins', name: 'script-security', version: '1.66'
+
+    testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: '5.5.2'
+    testRuntime group: 'org.junit.jupiter', name: 'junit-jupiter-engine', version: '5.5.2'
+    testImplementation group: 'org.mockito', name: 'mockito-core', version: '3.1.0'
 }
 
 sourceSets {
@@ -37,4 +41,13 @@ sourceSets {
             srcDirs = ['src/main/jenkinsfile', 'src/main/resources']
         }
     }
+    test {
+        groovy {
+            srcDirs = ['src/test/jobdsl']
+        }
+    }
+}
+
+test {
+    useJUnitPlatform()
 }

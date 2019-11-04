@@ -1,6 +1,7 @@
 import hudson.slaves.EnvironmentVariablesNodeProperty
 import hudson.slaves.EnvironmentVariablesNodeProperty.Entry
 import jenkins.model.Jenkins
+import org.example.Logger
 
 def envVariables = [
     'PRODUCT_IDS': 'animal-service,pet-service,zoo-service',
@@ -10,10 +11,12 @@ def envVariables = [
     'PRODUCT_zoo-service_URL': 'https://example.org/zoo-service.git'
 ]
 
-out.println('  Jenkins environment variables:')
+def logger = new Logger(out)
+
+logger.info('Jenkins environment variables:')
 def envEntries = []
 for (def entry in envVariables.entrySet()) {
-    out.println("    ${entry.key}=${entry.value}")
+    logger.info("  ${entry.key}=${entry.value}")
     envEntries.add(new Entry(entry.key, entry.value))
 }
 

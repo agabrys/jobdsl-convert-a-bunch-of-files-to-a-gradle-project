@@ -1,3 +1,4 @@
+import org.example.Logger
 import org.jenkinsci.plugins.scriptsecurity.scripts.ScriptApproval
 
 // Approve the following scripts used by ExtendedChoiceParameter plugin
@@ -19,7 +20,8 @@ Jenkins.get().globalNodeProperties.get(EnvironmentVariablesNodeProperty.class).e
     '22a85b9df04b2e905150af0099a1c57b836cbb9c'
 ]
 
+def logger = new Logger(out)
 scriptsHashes.each {
-    out.println "  Approving script by hash: ${it}"
+    logger.info("Approving script by hash: ${it}")
     ScriptApproval.get().approveScript(it)
 }
