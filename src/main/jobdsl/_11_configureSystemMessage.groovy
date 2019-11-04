@@ -1,4 +1,5 @@
 import jenkins.model.Jenkins
+import org.example.DataStorage
 
-Jenkins.get().setSystemMessage(readFileFromWorkspace('resources/systemMessage.html'))
+Jenkins.get().setSystemMessage(new DataStorage(this).readAsText('systemMessage.html'))
 Jenkins.get().save()

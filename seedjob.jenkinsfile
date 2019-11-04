@@ -20,6 +20,12 @@ pipeline {
                     extensions: [[$class: 'RelativeTargetDirectory', relativeTargetDir: 'seed-job']],
                     userRemoteConfigs: [[url: 'https://github.com/agabrys/jobdsl-convert-a-bunch-of-files-to-a-gradle-project']]
                 ], changelog: true, poll: false
+                checkout scm: [
+                    $class: 'GitSCM',
+                    branches: [[name: params.DATA_BRANCH_NAME]],
+                    extensions: [[$class: 'RelativeTargetDirectory', relativeTargetDir: 'data']],
+                    userRemoteConfigs: [[url: 'https://github.com/agabrys/jobdsl-convert-a-bunch-of-files-to-a-gradle-project']]
+                ], changelog: true, poll: false
 
                 script {
                     findFiles(glob: 'seed-job/src/main/**').collect { it.path }.sort().each {

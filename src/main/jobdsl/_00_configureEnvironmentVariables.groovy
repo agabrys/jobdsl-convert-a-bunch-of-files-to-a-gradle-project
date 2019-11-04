@@ -1,16 +1,10 @@
 import hudson.slaves.EnvironmentVariablesNodeProperty
 import hudson.slaves.EnvironmentVariablesNodeProperty.Entry
 import jenkins.model.Jenkins
+import org.example.DataStorage
 import org.example.Logger
 
-def envVariables = [
-    'PRODUCT_IDS': 'animal-service,pet-service,zoo-service',
-    'DEFAULT_PRODUCT_ID': 'pet-service',
-    'PRODUCT_animal-service_URL': 'https://example.org/animal-service.git',
-    'PRODUCT_pet-service_URL': 'https://example.org/pet-service.git',
-    'PRODUCT_zoo-service_URL': 'https://example.org/zoo-service.git'
-]
-
+def envVariables = new DataStorage(this).readAsProperties('environment-variables.properties')
 def logger = new Logger(out)
 
 logger.info('Jenkins environment variables:')

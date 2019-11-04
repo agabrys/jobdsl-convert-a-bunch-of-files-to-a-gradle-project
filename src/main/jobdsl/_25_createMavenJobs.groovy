@@ -1,49 +1,24 @@
+import org.example.DataStorage
 import org.example.Logger
 import org.example.dsl.ViewBuilder
 
-def jobs = [
-    [
-        name: 'project-1',
-        displayName: 'Project 1',
-        gitUrl: 'https://example.org/project-1'
-    ],
-    [
-        name: 'project-2',
-        displayName: 'Project 2',
-        gitUrl: 'https://example.org/project-2'
-    ],
-    [
-        name: 'project-3',
-        displayName: 'Project 3',
-        gitUrl: 'https://example.org/project-3'
-    ],
-    [
-        name: 'project-4',
-        displayName: 'Project 4',
-        gitUrl: 'https://example.org/project-4'
-    ],
-    [
-        name: 'project-5',
-        displayName: 'Project 5',
-        gitUrl: 'https://example.org/project-5'
-    ]
-]
+def xml = new DataStorage(this).readAsXml('maven-jobs.xml')
 
 def logger = new Logger(out)
-jobs.each { job ->
-    logger.info("Creating Maven job for ${job.displayName}")
-    mavenJob(job.name) {
-        displayName(job.displayName)
+xml.job.each { job ->
+    logger.info("Creating Maven job for ${job.displayName.text()}")
+    mavenJob(job.name.text()) {
+        displayName(job.displayName.text())
         description("""\
             <p>
-                Builds ${job.displayName} cloned from ${job.gitUrl}
+                Builds ${job.displayName.text()} cloned from ${job.gitUrl.text()}
             </p>
         """.stripIndent())
 
         scm {
             git {
                 remote {
-                    url job.gitUrl
+                    url job.gitUrl.text()
                 }
                 branch '*/$BRANCH'
                 extensions {
@@ -89,6 +64,6 @@ jobs.each { job ->
     }
 }
 
-if (!jobs.isEmpty()) {
+if (!xml.job.isEmpty()) {
     new ViewBuilder(this).name('projects').includes('^project-\\d+$').build()
 }
