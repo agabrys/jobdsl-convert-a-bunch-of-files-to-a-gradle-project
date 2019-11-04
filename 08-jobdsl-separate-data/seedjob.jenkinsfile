@@ -1,0 +1,56 @@
+pipeline {
+    agent {
+        label 'master'
+    }
+    options {
+        ansiColor('xterm')
+        disableConcurrentBuilds()
+        timestamps()
+        timeout(time: 15)
+    }
+    stages {
+        stage('Provision') {
+            steps {
+                // clean ws before to allow seeing the workspace after the build
+                cleanWs()
+
+                checkout scm: [
+                    $class: 'GitSCM',
+                    branches: [[name: params.BRANCH_NAME]],
+                    extensions: [[$class: 'RelativeTargetDirectory', relativeTargetDir: 'seed-job']],
+                    userRemoteConfigs: [[url: 'https://github.com/agabrys/jobdsl-convert-a-bunch-of-files-to-a-gradle-project']]
+                ], changelog: true, poll: false
+                checkout scm: [
+                    $class: 'GitSCM',
+                    branches: [[name: params.DATA_BRANCH_NAME]],
+                    extensions: [[$class: 'RelativeTargetDirectory', relativeTargetDir: 'data']],
+                    userRemoteConfigs: [[url: 'https://github.com/agabrys/jobdsl-convert-a-bunch-of-files-to-a-gradle-project']]
+                ], changelog: true, poll: false
+
+                script {
+                    findFiles(glob: 'seed-job/src/main/**').collect { it.path }.sort().each {
+                        def destPath = it.substring('seed-job/src/main/'.length())
+                        echo "Copying ${it} to ${destPath}"
+                        def content = readFile file: it
+                        writeFile file: destPath, text: content
+                    }
+                }
+
+                jobDsl(
+                    targets: 'jobdsl/*.groovy',
+                    sandbox: true,
+                    additionalClasspath: '',
+                    additionalParameters: [
+                        'WORKSPACE': env.WORKSPACE
+                    ],
+                    failOnMissingPlugin: true,
+                    failOnSeedCollision: true,
+                    unstableOnDeprecation: true,
+                    removedConfigFilesAction: 'DELETE',
+                    removedJobAction: 'DELETE',
+                    removedViewAction: 'DELETE'
+                )
+            }
+        }
+    }
+}

@@ -1,0 +1,17 @@
+ext.jenkinsPlugin = { parameters ->
+    dependencies.implementation(group: parameters['group'], name: parameters['name'], version: parameters['version']) {
+        artifact {
+            name = parameters['name']
+            type = 'jar'
+        }
+    }
+}
+
+ext.testJenkinsPlugin = { parameters ->
+    dependencies.testImplementation(group: parameters['group'], name: parameters['name'], version: parameters['version']) {
+        artifact {
+            name = parameters['name']
+            type = 'jar'
+        }
+    }
+}

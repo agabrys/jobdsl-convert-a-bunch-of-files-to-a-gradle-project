@@ -1,0 +1,39 @@
+pipeline {
+    agent {
+        label 'master'
+    }
+    options {
+        disableConcurrentBuilds()
+        timestamps()
+        timeout(time: 15)
+    }
+    stages {
+        stage('Provision') {
+            steps {
+                // clean ws before to allow seeing the workspace after the build
+                cleanWs()
+
+                checkout scm: [
+                    $class: 'GitSCM',
+                    branches: [[name: params.BRANCH_NAME]],
+                    userRemoteConfigs: [[url: 'https://github.com/agabrys/jobdsl-convert-a-bunch-of-files-to-a-gradle-project']]
+                ], changelog: true, poll: false
+
+                jobDsl(
+                    targets: 'jobdsl/*.groovy',
+                    sandbox: true,
+                    additionalClasspath: '',
+                    additionalParameters: [
+                        'WORKSPACE': env.WORKSPACE
+                    ],
+                    failOnMissingPlugin: true,
+                    failOnSeedCollision: true,
+                    unstableOnDeprecation: true,
+                    removedConfigFilesAction: 'DELETE',
+                    removedJobAction: 'DELETE',
+                    removedViewAction: 'DELETE'
+                )
+            }
+        }
+    }
+}

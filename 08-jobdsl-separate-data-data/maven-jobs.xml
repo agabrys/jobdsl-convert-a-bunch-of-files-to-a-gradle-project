@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jobs>
+	<job>
+		<name>project-1</name>
+		<displayName>Project 1</displayName>
+		<gitUrl>https://example.org/project-1</gitUrl>
+	</job>
+	<job>
+		<name>project-2</name>
+		<displayName>Project 2</displayName>
+		<gitUrl>https://example.org/project-2</gitUrl>
+	</job>
+	<job>
+		<name>project-3</name>
+		<displayName>Project 3</displayName>
+		<gitUrl>https://example.org/project-3</gitUrl>
+	</job>
+	<job>
+		<name>project-4</name>
+		<displayName>Project 4</displayName>
+		<gitUrl>https://example.org/project-4</gitUrl>
+	</job>
+	<job>
+		<name>project-5</name>
+		<displayName>Project 5</displayName>
+		<gitUrl>https://example.org/project-5</gitUrl>
+	</job>
+</jobs>

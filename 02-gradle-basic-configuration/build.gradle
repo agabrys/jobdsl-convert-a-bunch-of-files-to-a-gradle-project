@@ -1,0 +1,29 @@
+apply plugin: 'groovy'
+
+repositories {
+    mavenCentral()
+    maven {
+        url 'https://repo.jenkins-ci.org/public/'
+    }
+    mavenLocal()
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_11
+}
+
+dependencies {
+    implementation group: 'org.codehaus.groovy', name: 'groovy-all', version: '2.4.12'
+    implementation group: 'org.jenkins-ci.main', name: 'jenkins-core', version: '2.190.2'
+}
+
+sourceSets {
+    main {
+        groovy {
+            srcDirs = ['src/main/jobdsl']
+        }
+        resources {
+            srcDirs = ['src/main/jenkinsfile', 'src/main/resources']
+        }
+    }
+}

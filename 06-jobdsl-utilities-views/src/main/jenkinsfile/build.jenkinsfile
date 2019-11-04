@@ -1,0 +1,15 @@
+pipeline {
+    agent none
+    stages {
+        stage('Fake Checkout') {
+            steps {
+                echo "Checkout ${env["PRODUCT_${params.PRODUCT_ID}_URL"]} repository"
+            }
+        }
+        stage('Fake Build') {
+            steps {
+                echo 'Fake build'
+            }
+        }
+    }
+}
