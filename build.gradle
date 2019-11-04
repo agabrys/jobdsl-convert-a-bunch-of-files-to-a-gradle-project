@@ -12,9 +12,20 @@ java {
     sourceCompatibility = JavaVersion.VERSION_11
 }
 
+ext.jenkinsPlugin = { parameters ->
+    dependencies.implementation(group: parameters['group'], name: parameters['name'], version: parameters['version']) {
+        artifact {
+            name = parameters['name']
+            type = 'jar'
+        }
+    }
+}
+
 dependencies {
     implementation group: 'org.codehaus.groovy', name: 'groovy-all', version: '2.4.12'
     implementation group: 'org.jenkins-ci.main', name: 'jenkins-core', version: '2.190.2'
+
+    jenkinsPlugin group: 'org.jenkins-ci.plugins', name: 'script-security', version: '1.66'
 }
 
 sourceSets {
