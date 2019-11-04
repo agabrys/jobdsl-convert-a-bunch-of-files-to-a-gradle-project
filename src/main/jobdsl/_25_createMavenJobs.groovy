@@ -1,4 +1,5 @@
 import org.example.Logger
+import org.example.dsl.ViewBuilder
 
 def jobs = [
     [
@@ -86,4 +87,8 @@ jobs.each { job ->
             }
         }
     }
+}
+
+if (!jobs.isEmpty()) {
+    new ViewBuilder(this).name('projects').includes('^project-\\d+$').build()
 }

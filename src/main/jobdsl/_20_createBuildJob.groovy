@@ -1,3 +1,5 @@
+import org.example.dsl.ViewBuilder
+
 pipelineJob('build') {
     displayName('Build')
     description('''\
@@ -50,3 +52,5 @@ pipelineJob('build') {
         }
     }
 }
+
+new ViewBuilder(this).name('view 1').jobs('build').build()
