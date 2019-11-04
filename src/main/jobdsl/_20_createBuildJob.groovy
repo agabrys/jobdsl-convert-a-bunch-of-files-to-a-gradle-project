@@ -23,16 +23,8 @@ pipelineJob('build') {
                     delegate.saveJSONParameterToFile(false)
                     delegate.visibleItemCount(10)
                     delegate.type('PT_SINGLE_SELECT')
-                    delegate.groovyScript('''\
-                        import hudson.slaves.EnvironmentVariablesNodeProperty
-                        import jenkins.model.Jenkins
-                        Jenkins.get().globalNodeProperties.get(EnvironmentVariablesNodeProperty.class).envVars['PRODUCT_IDS']
-                    '''.stripIndent())
-                    delegate.defaultGroovyScript('''\
-                        import hudson.slaves.EnvironmentVariablesNodeProperty
-                        import jenkins.model.Jenkins
-                        Jenkins.get().globalNodeProperties.get(EnvironmentVariablesNodeProperty.class).envVars['DEFAULT_PRODUCT_ID']
-                    '''.stripIndent())
+                    delegate.groovyScript(readFileFromWorkspace('approved-scripts/getProductIds.groovy'))
+                    delegate.defaultGroovyScript(readFileFromWorkspace('approved-scripts/getDefaultProductId.groovy'))
                     delegate.multiSelectDelimiter(',')
                 }
 
