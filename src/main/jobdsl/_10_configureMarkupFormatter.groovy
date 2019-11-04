@@ -1,10 +1,5 @@
 import jenkins.model.Jenkins
+import org.example.builder.RawHtmlMarkupFormatterBuilder
 
-Jenkins.get().setMarkupFormatter(
-    Class.forName(
-        'hudson.markup.RawHtmlMarkupFormatter',
-        true,
-        Jenkins.get().pluginManager.uberClassLoader
-    ).getDeclaredConstructor(Boolean.TYPE).newInstance(false)
-)
+Jenkins.get().setMarkupFormatter(new RawHtmlMarkupFormatterBuilder().build())
 Jenkins.get().save()

@@ -1,4 +1,5 @@
 apply plugin: 'groovy'
+apply from: 'gradle/utils.gradle'
 
 repositories {
     mavenCentral()
@@ -12,15 +13,6 @@ java {
     sourceCompatibility = JavaVersion.VERSION_11
 }
 
-ext.jenkinsPlugin = { parameters ->
-    dependencies.implementation(group: parameters['group'], name: parameters['name'], version: parameters['version']) {
-        artifact {
-            name = parameters['name']
-            type = 'jar'
-        }
-    }
-}
-
 dependencies {
     implementation group: 'org.codehaus.groovy', name: 'groovy-all', version: '2.4.12'
     implementation group: 'org.jenkins-ci.main', name: 'jenkins-core', version: '2.190.2'
@@ -29,9 +21,12 @@ dependencies {
     jenkinsPlugin group: 'org.jenkins-ci.plugins', name: 'script-security', version: '1.66'
 
     testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: '5.5.2'
+    testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-params', version: '5.5.2'
     testRuntime group: 'org.junit.jupiter', name: 'junit-jupiter-engine', version: '5.5.2'
     testImplementation group: 'org.assertj', name: 'assertj-core', version: '3.13.2'
     testImplementation group: 'org.mockito', name: 'mockito-core', version: '3.1.0'
+
+    testJenkinsPlugin  group: 'org.jenkins-ci.plugins', name: 'antisamy-markup-formatter', version: '1.6'
 }
 
 sourceSets {
